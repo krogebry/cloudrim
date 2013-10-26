@@ -34,7 +34,7 @@ var db = new Db('cloudrim', new Server(host, port, {auto_reconnect: true}, {}), 
 db.open(function(){});
 
 app.get('/kaiju', function(req, res){
-  db.collection( "kaiju" ).find().toArray(function(err, docs) { 
+  db.collection( "kaiju" ).find().sort({ name: 1 }).limit( 10 ).toArray(function(err, docs) { 
     if(!err){
       var body = JSON.stringify({ data: docs });
       res.setHeader('Content-Type', 'application/json');
