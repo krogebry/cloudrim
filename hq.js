@@ -21,6 +21,9 @@ module.exports = function(app, db) {
     db.collection( "jaegers" ).find({ name: { "$ne": null }, hp: { "$gt": 0 }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, docs){
       if(!err){
         var jaeger = docs[0];
+        if(docs.length == 0){
+          next;
+        }
         //console.log( jaeger );
     
         // Get a random kaiju
