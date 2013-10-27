@@ -39,12 +39,12 @@ module.exports = function(app, db) {
               var hit = (Math.random()*10)
               var luck = Math.random();
               if(luck >= 0.90){
-                console.log( "%s(%s) got a lucky hit on %s(%s) for %s", jaeger.name, jaeger.hp, kaiju.name, kaiju.hp, hit )
+                console.log( "%s(%s) got a lucky hit on %s(%s) for %s", jaeger.name, jaeger.hp, kaiju.name, kaiju.hp, hit );
                 hit += (hit*2);
-              else if(luck >= 0.50 && luck < 0.90){
-                console.log( "%s(%s) got a good hit on %s(%s) for %s", jaeger.name, jaeger.hp, kaiju.name, kaiju.hp, hit )
+              }else if(luck >= 0.50 && luck < 0.90){
+                console.log( "%s(%s) got a good hit on %s(%s) for %s", jaeger.name, jaeger.hp, kaiju.name, kaiju.hp, hit );
                 hit += (hit*0.20);
-              else{ // You are not lucky.
+              }else{ // You are not lucky.
                 console.log( "%s(%s) hit %s(%s) for %s", jaeger.name, jaeger.hp, kaiju.name, kaiju.hp, hit )
               }
               kaiju.hp -= hit;
@@ -57,12 +57,12 @@ module.exports = function(app, db) {
               var hit = (Math.random()*10)
               var luck = Math.random();
               if(luck >= 0.90){
-                console.log( "%s(%s) got a lucky hit on %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit )
+                console.log( "%s(%s) got a lucky hit on %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit );
                 hit += (hit*2);
-              else if(luck >= 0.50 && luck < 0.90){
-                console.log( "%s(%s) got a good hit on %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit )
+              }else if(luck >= 0.50 && luck < 0.90){
+                console.log( "%s(%s) got a good hit on %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit );
                 hit += (hit*0.20);
-              else{ // You are not lucky.
+              }else{ // You are not lucky.
                 console.log( "%s(%s) hit %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit )
               }
               jaeger.hp -= hit;
