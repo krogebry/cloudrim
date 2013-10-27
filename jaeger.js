@@ -1,6 +1,7 @@
 /**
  * Jaegers
  * internal-cloudrim9-ElasticL-1JRO34B3OL2U9-676608629.us-east-1.elb.amazonaws.com
+ * opsauto-dev.us-west-2.opsautohtc.net
  */
 
 module.exports = function(app, db) {
@@ -20,12 +21,12 @@ module.exports = function(app, db) {
     // Get a random jaeger
     db.collection( "jaegers" ).find({ name: { "$ne": null }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, jaeger){
       if(!err){
-        console.log( jaeger );
+        //console.log( jaeger );
 
         // Get a random kaiju
         //console.log( Math.random() );
         db.collection( "kaiju" ).find({ name: { "$nin": [null, "blah"] }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, kaiju){
-          console.log( kaiju );
+          //console.log( kaiju );
           var body = JSON.stringify({ kaiju: kaiju, jaeger: jaeger });
           res.setHeader('Content-Type', 'application/json');
           res.setHeader('Content-Length', body.length);
@@ -41,7 +42,7 @@ module.exports = function(app, db) {
       name: req.body.name,
       level: req.body.level
     };
-    console.log( jaeger );
+    //console.log( jaeger );
 
     db.collection( "jaegers" ).insert( jaeger, {w:-1}, function(err, docs){
       if(err){

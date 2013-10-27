@@ -25,7 +25,7 @@ module.exports = function(app, db) {
         console.log( "Error creating kaiju: " + err );
       }else{
         console.log( "Kijui created: " + JSON.stringify( docs ) );
-        var body = JSON.stringify({ data: kaiju});
+        var body = JSON.stringify({ kaiju: kaiju });
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Content-Length', body.length);
         res.end(body);
