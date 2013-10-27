@@ -5,7 +5,7 @@
 module.exports = function(app, db) {
 
   app.get('/kaiju', function(req, res){
-    db.collection( "kaiju" ).find().sort({ name: 1 }).limit( 10 ).toArray(function(err, docs) { 
+    db.collection( "kaijus" ).find().sort({ name: 1 }).limit( 10 ).toArray(function(err, docs) { 
       if(!err){
         var body = JSON.stringify({ data: docs });
         res.setHeader('Content-Type', 'application/json');
@@ -21,7 +21,7 @@ module.exports = function(app, db) {
       name: req.body.name,
       level: req.body.level
     }
-    db.collection( "kaiju" ).insert( kaiju, {w:-1}, function(err, docs){
+    db.collection( "kaijus" ).insert( kaiju, {w:-1}, function(err, docs){
       if(err){
         console.log( "Error creating kaiju: " + err );
       }else{

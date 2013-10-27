@@ -25,7 +25,7 @@ module.exports = function(app, db) {
     
         // Get a random kaiju
         //console.log( Math.random() );
-        db.collection( "kaiju" ).find({ hp: { "$gt": 0 }, name: { "$nin": [null, "blah"] }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, docs){
+        db.collection( "kaijus" ).find({ hp: { "$gt": 0 }, name: { "$nin": [null, "blah"] }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, docs){
           //console.log( docs.length );
           if(docs.length > 0){
             kaiju = docs[0];
@@ -73,8 +73,8 @@ module.exports = function(app, db) {
               console.log( "%s(%s) hit back %s(%s) for %s", kaiju.name, kaiju.hp, jaeger.name, jaeger.hp, hit )
             }
 
-            db.collection( "kaiju" ).update({ _id: kaiju._id }, kaiju );
-            db.collection( "jaeger" ).update({ _id: jaeger._id }, jaeger );
+            db.collection( "kaijus" ).update({ _id: kaiju._id }, kaiju );
+            db.collection( "jaegers" ).update({ _id: jaeger._id }, jaeger );
 
             var body = JSON.stringify({ kaiju: kaiju, jaeger: jaeger });
             res.setHeader('Content-Type', 'application/json');
@@ -97,7 +97,7 @@ module.exports = function(app, db) {
   // User check-in.
   app.post('/hq/:hq_id/user/checkin', function(req, res){
     var hq_id = res.param( hq_id );
-    var row = db.collection( "user" ).find({ _id: res.body.email });
+    var row = db.collection( "users" ).find({ _id: res.body.email });
     if(row.count == 1){
       row.toArray(function(err, docs) { 
         if(err){
