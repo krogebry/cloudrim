@@ -16,6 +16,45 @@ module.exports = function(app, db) {
     });
   });
 
+  app.get('/hq/deploy_jaeger', function(req, res){
+    // Get a random jaeger
+    db.collection( "jaegers" ).find({ name: { "$ne": null }, hp: { "$gt": 0 }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, docs){
+      if(!err){
+        var jaeger = docs[0];
+        //console.log( jaeger );
+    
+        // Get a random kaiju
+        //console.log( Math.random() );
+        db.collection( "kaiju" ).find({ hp: { "$gt": 0 }, name: { "$nin": [null, "blah"] }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, docs){
+          //console.log( docs.length );
+          if(docs.length > 0){
+            kaiju = docs[0];
+            //console.log( kaiju );
+
+            var hit = (Math.random()*10)
+            if(kaiju.hp == null){
+              kaiju.hp = 100;
+            }
+            kaiju.hp -= hit;
+
+            db.collection( "kaiju" ).update({ _id: kaiju._id }, kaiju );
+            //console.log( kaiju );
+
+            var body = JSON.stringify({ kaiju: kaiju, jaeger: jaeger });
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Length', body.length);
+            res.end(body);
+          }else{
+            var body = JSON.stringify({ err: "Unable to find kaiju to fight!" });
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Length', body.length);
+            res.end(body);
+          }
+        });
+      }
+    });
+  });
+
   // User check-in.
   app.post('/hq/:hq_id/user/checkin', function(req, res){
     var hq_id = res.param( hq_id );
@@ -26,7 +65,7 @@ module.exports = function(app, db) {
           res.setHeader('Content-Type', 'application/json');
           res.setHeader('Content-Length', body.length);
           res.setCode( 400 );
-          res.end(JSON.stringify({ err: err });
+          res.end(JSON.stringify({ err: err }));
         }else{
           // do the actual check-in
           //db.collection( "user" ).update(

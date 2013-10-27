@@ -25,6 +25,7 @@ var db = new Db('cloudrim', new Server(host, port, {auto_reconnect: true}, {}), 
 db.open(function(){});
 
 require( "./kaiju.js" )( app, db );
+require( "./hq.js" )( app, db );
 require( "./user.js" )( app, db );
 require( "./jaeger.js" )( app, db );
 

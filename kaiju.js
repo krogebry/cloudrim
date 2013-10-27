@@ -17,6 +17,7 @@ module.exports = function(app, db) {
 
   app.post('/kaiju', function(req, res){
     var kaiju = {
+      hp: 100,
       name: req.body.name,
       level: req.body.level
     }

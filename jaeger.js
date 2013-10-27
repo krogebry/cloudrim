@@ -17,28 +17,10 @@ module.exports = function(app, db) {
     });
   });
 
-  app.get('/jaeger/start_random_battle', function(req, res){
-    // Get a random jaeger
-    db.collection( "jaegers" ).find({ name: { "$ne": null }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, jaeger){
-      if(!err){
-        //console.log( jaeger );
-
-        // Get a random kaiju
-        //console.log( Math.random() );
-        db.collection( "kaiju" ).find({ name: { "$nin": [null, "blah"] }}).skip( Math.random()*10 ).limit( 1 ).toArray(function(err, kaiju){
-          //console.log( kaiju );
-          var body = JSON.stringify({ kaiju: kaiju, jaeger: jaeger });
-          res.setHeader('Content-Type', 'application/json');
-          res.setHeader('Content-Length', body.length);
-          res.end(body);
-        });
-      }
-    });
-  });
-
   app.post('/jaeger', function(req, res){
     console.log( req.body );
     var jaeger = {
+      hp: 100,
       name: req.body.name,
       level: req.body.level
     };
