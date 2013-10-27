@@ -45,6 +45,7 @@ module.exports = function(app, db) {
             res.setHeader('Content-Length', body.length);
             res.end(body);
           }else{
+            console.log( "Unable to find kaiju to fight!" );
             var body = JSON.stringify({ err: "Unable to find kaiju to fight!" });
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Content-Length', body.length);
