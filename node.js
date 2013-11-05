@@ -11,15 +11,25 @@ var ObjectID = require('mongodb').ObjectID;
 host = "127.0.0.1";
 port = 27017;
 
+
 var db = new Db('cloudrim', new Server(host, port, {auto_reconnect: true}, {}), { w: -1 });
 db.open(function(err, db){
-  db.ensureIndex('user_name', { name: 1 } , { unique:true, background:true, dropDups:true, w:1 }, function(err, indexName) {});
+  db.ensureIndex('users', { email: 1 } , { unique:true, background:true, dropDups:true, w:1 }, function(err, indexName) {});
+  db.ensureIndex('kaijus', { level: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('jaegers', { level: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('battle_log', { actor_id: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('battle_log', { log_type: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('battle_log', { email: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('battle_request_log', { actor_id: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
+  db.ensureIndex('battle_request_log', { request_id: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
 });
 
 var express = require('express');
 var app = express();
 app.configure(function(){
   app.use(express.bodyParser());
+
+  app.VERSION="0.0.12"
 
   app.use(function(req, res, next){
     //console.dir( req.body );
@@ -56,6 +66,7 @@ require( "./mounts/user.js" )( app, db );
 require( "./mounts/stats.js" )( app, db );
 require( "./mounts/kaiju.js" )( app, db );
 require( "./mounts/jaeger.js" )( app, db );
+require( "./mounts/scoreboard.js" )( app, db );
 
 app.listen( 9000 );
 console.log('Listening on port 9000');

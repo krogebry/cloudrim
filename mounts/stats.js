@@ -7,7 +7,6 @@ module.exports = function(app, db) {
   app.get('/stats', function(req, res){
     //var num_kaiju = db.collection( "kaijus" ).count();
     //console.log( num_kaiju );
-    /**
     db.collection( "kaijus" ).find({ hp: { "$gt": 0 }}).count(function(e, num_kaiju){
       db.collection( "jaegers" ).find({ hp: { "$gt": 0 }}).count(function(e, num_jaeger){
         db.collection( "users" ).find({ xp: { "$gt": 10 }}).toArray(function(err, docs){
@@ -19,7 +18,6 @@ module.exports = function(app, db) {
         });
       });
     });
-    */
   });
 
 };

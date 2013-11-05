@@ -17,10 +17,10 @@ db.open(function(err, db){
 });
 
 var update_scoreboard = function(){
-
   var now = new Date();
 
   console.log( "Updating Scoreboard: "+now );
+
   var map = function(){
     emit(this.email, this.xp);
   };
@@ -36,27 +36,32 @@ var update_scoreboard = function(){
     if(err){
       console.log( "-----------" );
       console.dir(err);
+      return;
     }
+
+    var map = function(){
+      emit(this.remote_host, 1);
+    };
+    var reduce = function(key, values){
+      return Array.sum(values);
+    };
+    db.collection( "battle_request_log" ).mapReduce( map, reduce, {
+      out: "request_summary",
+      query: { } 
+    },function(err, results){
+      if(err){
+        console.log( "-----------" );
+        console.dir(err);
+        return;
+      }
+      console.log( "Done updating scoreboard" );
+
+      // Run again *after* this is complete.
+      setTimeout(update_scoreboard, 1000);
+    });
+
   });
 
-  var map = function(){
-    emit(this.remote_host, 1);
-  };
-  var reduce = function(key, values){
-    return Array.sum(values);
-  };
-  db.collection( "battle_request_log" ).mapReduce( map, reduce, {
-    out: "request_summary",
-    query: { } 
-  },function(err, results){
-    if(err){
-      console.log( "-----------" );
-      console.dir(err);
-    }
-  });
-
-  console.log( "Done updating scoreboard" );
-  setTimeout(update_scoreboard, 1000);
 };
 setTimeout(update_scoreboard, 1000);
 

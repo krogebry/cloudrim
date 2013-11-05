@@ -18,7 +18,7 @@ db.open(function(err, db){
   db.ensureIndex('user_name', { name: 1 } , { unique:true, background:true, dropDups:true, w:1 }, function(err, indexName) {});
 });
 
-var MAX_NUM_KAIJU = (1024*1)
+var MAX_NUM_KAIJU = (1024*1024*1024)*1024*1024
 
 var kaiju_base_chars = [
   { name: "Hundun", category: 1, speed: 2, str: 2, armor: 3 },
@@ -40,7 +40,7 @@ var create_kaiju = function(){
   var earth = parseInt((Math.random() * 10) * (Math.random() >= 0.50 ? 0 : 1));
   var water = parseInt((Math.random() * 10) * (Math.random() >= 0.50 ? 0 : 1));
 
-  var level = parseInt((Math.random() * 100));
+  var level = parseInt((Math.random() * 100000));
 
   var base_char = kaiju_base_chars[Math.floor(Math.random() * num_base_kaiju)];
   console.log( "Basename: %s", base_char.name );
@@ -67,6 +67,7 @@ var create_kaiju = function(){
 var update_kaijus = function(){
   var now = new Date();
 
+  /**
   console.log( "Updating Kaiju: "+now );
   var map = function(){
     emit( this.level, 1 );
@@ -83,16 +84,20 @@ var update_kaijus = function(){
       console.dir(err);
     }
   });
+  */
 
   db.collection( "kaijus" ).count(function(err, num_kaijus){
     if(num_kaijus < MAX_NUM_KAIJU){
-      for( i=0; i<10; i++){
+      for( i=0; i<10000; i++){
         create_kaiju();
       }
+      console.log( "Done updating kaijus" );
+      setTimeout(update_kaijus, 1000);
     }
   });
 
   // Update count
+  /**
   db.collection( "kaijus" ).find({ hp: { "$gt": 0 }}).count(function(err, num_kaijus){
     db.collection( "summary" ).find({ name: "count_kaijus" }).count(function(err, sum){
       if(err){
@@ -123,9 +128,8 @@ var update_kaijus = function(){
       }
     });
   });
+  */
 
-  console.log( "Done updating kaijus" );
-  setTimeout(update_kaijus, 1000);
 
 };
 setTimeout(update_kaijus, 1000);

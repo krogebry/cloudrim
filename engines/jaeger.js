@@ -19,7 +19,7 @@ db.open(function(err, db){
   db.ensureIndex('jaegers', { hp: 1 } , { background:true, w:0 }, function(err, indexName) {});
 });
 
-var MAX_NUM_JAEGERS = (1024*1);
+var MAX_NUM_JAEGERS = (1024*1024*1024)*1024*1024;
 
 var jaeger_base_chars = [
   { name: "Brawler Yukon", mark: 1, speed: 2, str: 2, armor: 3 },
@@ -52,7 +52,7 @@ var create_jaeger = function(){
   var base_char = jaeger_base_chars[Math.floor(Math.random() * num_base_jaeger)];
   console.log( "Basename: %s", base_char.name );
 
-  var level = parseInt((Math.random() * 100));
+  var level = parseInt((Math.random() * 10000));
   var jaeger = {
     hp: 100,
     name: "",
@@ -71,6 +71,7 @@ var update_jaegers = function(){
 
   var now = new Date();
 
+  /**
   console.log( "Updating Jaegers: "+now );
   var map = function(){
     emit( this.level, 1 );
@@ -87,16 +88,20 @@ var update_jaegers = function(){
       console.dir(err);
     }
   });
+  */
 
   db.collection( "jaegers" ).count(function(err, num_jaegers){
     if(num_jaegers < MAX_NUM_JAEGERS){
       for( i=0; i<10; i++){
         create_jaeger();
       }
+      console.log( "Done updating jaegers" );
+      setTimeout(update_jaegers, 1000);
     }
   });
 
   // Update count
+  /**
   db.collection( "jaegers" ).find({ hp: { "$gt": 0 }}).count(function(err, num_jaegers){
     db.collection( "summary" ).find({ name: "count_jaegers" }).count(function(err, sum){
       if(err){
@@ -127,8 +132,7 @@ var update_jaegers = function(){
       }
     });
   });
-  console.log( "Done updating jaegers" );
-  setTimeout(update_jaegers, 1000);
+  */
 };
 setTimeout(update_jaegers, 1000);
 
