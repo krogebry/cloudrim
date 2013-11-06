@@ -29,7 +29,7 @@ var app = express();
 app.configure(function(){
   app.use(express.bodyParser());
 
-  app.VERSION="0.0.12"
+  app.VERSION="0.0.13"
 
   app.use(function(req, res, next){
     //console.dir( req.body );
