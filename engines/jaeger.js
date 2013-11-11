@@ -52,10 +52,10 @@ var create_jaeger = function(){
   var base_char = jaeger_base_chars[Math.floor(Math.random() * num_base_jaeger)];
   console.log( "Basename: %s", base_char.name );
 
-  var level = parseInt((Math.random() * 10000));
+  var level = parseInt((Math.random() * 100000));
   var jaeger = {
     hp: 100,
-    name: "",
+    name: base_char.name + level,
     level: level,
     weapons: { left: left_weapon, right: right_weapon }
   };
@@ -92,7 +92,7 @@ var update_jaegers = function(){
 
   db.collection( "jaegers" ).count(function(err, num_jaegers){
     if(num_jaegers < MAX_NUM_JAEGERS){
-      for( i=0; i<10; i++){
+      for( i=0; i<1000; i++){
         create_jaeger();
       }
       console.log( "Done updating jaegers" );

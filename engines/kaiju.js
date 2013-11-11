@@ -88,7 +88,7 @@ var update_kaijus = function(){
 
   db.collection( "kaijus" ).count(function(err, num_kaijus){
     if(num_kaijus < MAX_NUM_KAIJU){
-      for( i=0; i<10; i++){
+      for( i=0; i<1000; i++){
         create_kaiju();
       }
       console.log( "Done updating kaijus" );

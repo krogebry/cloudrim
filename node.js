@@ -7,12 +7,17 @@ var Server = require('mongodb').Server;
 var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
+var port = 9000;
+//console.log( "Port: "+ process.env.PORT );
+if(process.env.PORT != undefined){
+  port = parseInt( process.env.PORT );
+}
 
-host = "127.0.0.1";
-port = 27017;
+db_host = "127.0.0.1";
+db_port = 27017;
 
 
-var db = new Db('cloudrim', new Server(host, port, {auto_reconnect: true}, {}), { w: -1 });
+var db = new Db('cloudrim', new Server(db_host, db_port, {auto_reconnect: true}, {}), { w: -1 });
 db.open(function(err, db){
   db.ensureIndex('users', { email: 1 } , { unique:true, background:true, dropDups:true, w:1 }, function(err, indexName) {});
   db.ensureIndex('kaijus', { level: 1 } , { unique:false, background:true, dropDups:false, w:1 }, function(err, indexName) {});
@@ -68,5 +73,5 @@ require( "./mounts/kaiju.js" )( app, db );
 require( "./mounts/jaeger.js" )( app, db );
 require( "./mounts/scoreboard.js" )( app, db );
 
-app.listen( 9000 );
-console.log('Listening on port 9000');
+app.listen( port );
+console.log('Listening on port '+port);
